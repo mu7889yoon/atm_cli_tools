@@ -5,25 +5,7 @@ from bs4 import BeautifulSoup
 import re
 import difflib
 import wget
-
-import downloader
-import extractor
-import renamer
-
-args = sys.argv
-# Validate args
-if len(args) < 2:
-    help_error.error_exit('Error: No URL specified')
-# --help or -h option
-if args[1] == '--help' or args[1] == '-h':
-    help_error.help()
-# Validate URL
-if not downloader.validate_url(args[1]):
-    help_error.error_exit('Error: Invalid URL')
-# Start downloading
-downloader.download(args[1])
-
-
+import json
 
 
 def get_atm_anime_page_url(OPED_url):
@@ -74,7 +56,8 @@ def get_song_table_from_aDB_soup(soup):
     return soup.find_all('td', class_='name song')
 
 def get_song_name_from_OPED_soup(soup):
-    song_name = soup.find('span', color='text-primary', class_='sc-320a02c8-0 blPzQM').text
+    song_name = soup.find('script', id='__NEXT_DATA__', type='application/json').text
+    song_name = json.loads(song_name)['props']['pageProps']['anime']['themes'][0]['song']['title']
     return song_name
 
 def get_webm_url_from_OPED_soup(soup):
@@ -142,6 +125,18 @@ def download_atm_theme(OPED_url):
     webm_url,file_name = determine_filename(OPED_url)
     wget.download(webm_url, file_name)
 
+args = sys.argv
+if len(args) < 1:
+    print('Error: No URL specified.')
+    sys.exit(1)
 
-OPED_url = sys.argv[1]
-download_atm_theme(OPED_url)
+if '-h' in args or '--help' in args or '-help' in args:
+    print('Usage:\t\t atdl [URL] <options>')
+    print('')
+    print('URL:\t\t example  ex: https://animethemes.moe/anime/suzumiya_haruhi_no_yuuutsu/ED-NCBD1080')
+    print('Options:\t -h --help show this help message and exit')
+    print('Options:\t -v --version show version and exit')
+    sys.exit(0)
+
+url = sys.argv[1]
+download_atm_theme(url)
