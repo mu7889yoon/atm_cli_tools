@@ -18,6 +18,14 @@ options:
   -f, --fast  Without rename, Just Download
 ```
 
+## Installation
+```
+pip install pyinstaller
+pyinstaller -F atm_tools.py -n atdl
+```
+move ```./atdl``` to environment variable path.
+Then you can use ```atdl``` command.
+
 ## Attention 
 Sometimes it does not work translate well.
 __Pull requests are welcome.__
