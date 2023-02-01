@@ -1,20 +1,35 @@
 import re
 import requests
-from bs4 import BeautifulSoup
-import json
-from lxml import html
-import string
+from bs4 import BeautifulSoup# import json
 import difflib
+import wget
+import os 
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"}
 
 class Props:
-    def __init__(self, theme_url):
+    def __init__(self, theme_url, options=None):
         self.theme_url = theme_url
         anime_url = theme_url[:theme_url.rfind('/')]
         self.slug_anime_name = anime_url[anime_url.rfind('/')+1:]
         self.theme_soup  = BeautifulSoup(requests.get(self.theme_url, headers=headers).text, 'html.parser')
         self.webm_url = self.theme_soup.find('meta', content=re.compile('https://v.animethemes.moe/')).get('content')
+        self.temp_filename = wget.filename_from_url(self.webm_url)
+        if options == '-f':
+            self.downloader(options)
+        else:
+            self.renamer()
+            self.downloader(options)
+            os.rename(self.temp_filename, self.file_name)
+
+    def downloader(self, options):
+        if options == '-f':
+            print('Downloading '+self.temp_filename)
+            wget.download(self.webm_url)
+        else:
+            print('Downloading '+self.file_name)
+            self.temp_filename = self.temp_filename+'_temp'
+            wget.download(self.webm_url, self.temp_filename)        
 
     def renamer(self):
         anime_name = self.get_jp_anime_name()
@@ -44,7 +59,7 @@ class Props:
             asg_soup = BeautifulSoup(requests.get(asg_url, headers=headers).text, 'html.parser')
             asg_jp_anime_name = asg_soup.find('div', class_='subject').text
         if aDB_jp_anime_name == None and asg_jp_anime_name == None:
-            print('No Japanese anime name found.')
+            print('[Warning] Japanese anime name not found.')
             return slug_anime_name
         elif aDB_jp_anime_name == None:
             return asg_jp_anime_name
@@ -69,8 +84,6 @@ class Props:
         if jp_theme_name!= None:
             return jp_theme_name.parent.parent.find('label',itemprop="alternateName").string
         else:
-            print('No Japanese theme name found.')
+            print('[Warning] Japanese theme name not found.')
             return self.en_theme_name
             
-
-
