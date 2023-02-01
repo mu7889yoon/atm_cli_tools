@@ -1,15 +1,12 @@
-import requests
-import re
-from bs4 import BeautifulSoup
 import sys
-from theme_props import Props as tp
+from theme import Props
 
 args = sys.argv
 url = args[1]
+props = Props(url)
+print(props.theme_url)
+print(props.slug_anime_name)
+print(props.webm_url)
 
-theme_props = tp(url)
-print(theme_props.theme_url)
-print(theme_props.anime_url)
-theme_props.download_webm()
-print(theme_props.webm_url)
-theme_props.rename()
+props.renamer()
+print(props.en_theme_name)
