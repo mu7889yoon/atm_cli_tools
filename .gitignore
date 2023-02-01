@@ -4,3 +4,5 @@ __pycache__
 *.webm
 *.json
 *.tmp
+dist
+build
