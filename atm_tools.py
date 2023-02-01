@@ -1,12 +1,12 @@
-import sys
+import argparse
 from theme import Props
 
-args = sys.argv
-url = args[1]
-props = Props(url)
-print(props.theme_url)
-print(props.slug_anime_name)
-print(props.webm_url)
+parser = argparse.ArgumentParser()
+parser.add_argument('url', help='URL of the theme page EX: https://animethemes.moe/anime/hayate_no_gotoku/OP2-BD1072')
+# -f でオプションを指定する
+parser.add_argument('-f', help='Without rename, Just Download', action='store_true')
+args = parser.parse_args()
+url = args.url
+option = '-f' if args.f else None
 
-props.renamer()
-print(props.en_theme_name)
+props = Props(url, option)
