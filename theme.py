@@ -15,7 +15,7 @@ class Props:
         self.theme_soup  = BeautifulSoup(requests.get(self.theme_url, headers=headers).text, 'html.parser')
         self.webm_url = self.theme_soup.find('meta', content=re.compile('https://v.animethemes.moe/')).get('content')
         self.temp_filename = wget.filename_from_url(self.webm_url)
-        if options == '-f':
+        if options == '--f' or options == '--fast':
             self.downloader(options)
         else:
             self.renamer()
