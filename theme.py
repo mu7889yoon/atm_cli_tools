@@ -1,6 +1,6 @@
 import re
 import requests
-from bs4 import BeautifulSoup# import json
+from bs4 import BeautifulSoup
 import difflib
 import wget
 import os 
