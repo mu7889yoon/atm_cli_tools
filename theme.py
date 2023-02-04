@@ -40,7 +40,8 @@ class Props:
     def renamer(self):
         anime_name = self.get_jp_anime_name()
         theme_name = self.get_jp_theme_name()
-        theme_type = self.webm_url[self.webm_url.rfind('-')+1:self.webm_url.rfind('.')]
+        # 最初の-から.の手前までを取得
+        theme_type = self.webm_url[self.webm_url.find('-')+1:self.webm_url.rfind('.')]
         self.file_name = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
 
     def get_jp_anime_name(self):
