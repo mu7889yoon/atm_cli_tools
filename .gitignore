@@ -6,3 +6,5 @@ __pycache__
 *.tmp
 dist
 build
+
+.DS_Store
