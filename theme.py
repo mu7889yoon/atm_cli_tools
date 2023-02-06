@@ -3,7 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 import difflib
 import wget
-import os 
+import os
+import threading
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"}
 
@@ -18,23 +19,27 @@ class Props:
         if options == '--f' or options == '--fast':
             self.downloader(options)
         else:
-            self.renamer()
-            self.downloader(options)
+            t1 = threading.Thread(target=self.renamer)
+            t2 = threading.Thread(target=self.downloader, args=(options,))
+            t1.start()
+            t2.start()
+            t1.join()
+            t2.join()
             os.rename(self.temp_filename, self.file_name)
+
 
     def downloader(self, options):
         if options == '-f':
             print('Downloading '+self.temp_filename)
             wget.download(self.webm_url)
         else:
-            print('Downloading '+self.file_name)
             self.temp_filename = self.temp_filename+'_temp'
             wget.download(self.webm_url, self.temp_filename)        
 
     def renamer(self):
         anime_name = self.get_jp_anime_name()
         theme_name = self.get_jp_theme_name()
-        theme_type = self.webm_url[self.webm_url.rfind('-')+1:self.webm_url.rfind('.')]
+        theme_type = self.webm_url[self.webm_url.find('-')+1:self.webm_url.rfind('.')]
         self.file_name = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
 
     def get_jp_anime_name(self):
