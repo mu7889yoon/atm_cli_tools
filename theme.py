@@ -33,14 +33,12 @@ class Props:
             print('Downloading '+self.temp_filename)
             wget.download(self.webm_url)
         else:
-            # print('Downloading '+self.file_name)
             self.temp_filename = self.temp_filename+'_temp'
             wget.download(self.webm_url, self.temp_filename)        
 
     def renamer(self):
         anime_name = self.get_jp_anime_name()
         theme_name = self.get_jp_theme_name()
-        # 最初の-から.の手前までを取得
         theme_type = self.webm_url[self.webm_url.find('-')+1:self.webm_url.rfind('.')]
         self.file_name = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
 
