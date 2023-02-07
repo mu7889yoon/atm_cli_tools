@@ -33,7 +33,6 @@ class Props:
             print('Downloading '+self.temp_filename)
             wget.download(self.webm_url)
         else:
-            # print('Downloading '+self.file_name)
             self.temp_filename = self.temp_filename+'_temp'
             wget.download(self.webm_url, self.temp_filename)        
 
@@ -42,6 +41,7 @@ class Props:
         theme_name = self.get_jp_theme_name()
         theme_type = self.webm_url[self.webm_url.rfind('-')+1:self.webm_url.rfind('.')]
         self.file_name = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
+        print(self.file_name)
 
     def get_jp_anime_name(self):
         anime_url = self.theme_url[:self.theme_url.rfind('/')]
@@ -76,7 +76,6 @@ class Props:
         else:
             return asg_jp_anime_name
         
-    # 曲名を英語から日本語に変換する
     def get_jp_theme_name(self):
         self.en_theme_name = self.theme_soup.find('span', color='text-primary').text
         self.themes_table =  self.aDB_soup.find_all('td', class_='name song')
