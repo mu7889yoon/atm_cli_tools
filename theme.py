@@ -30,7 +30,6 @@ class Props:
 
     def downloader(self, options):
         if options == '-f':
-            print('Downloading '+self.temp_filename)
             wget.download(self.webm_url)
         else:
             self.temp_filename = self.temp_filename+'_temp'
