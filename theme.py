@@ -40,7 +40,6 @@ class Props:
         theme_name = self.get_jp_theme_name()
         theme_type = self.webm_url[self.webm_url.find('-')+1:self.webm_url.rfind('.')]
         self.file_name = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
-        print(self.file_name)
 
     def get_jp_anime_name(self):
         anime_url = self.theme_url[:self.theme_url.rfind('/')]
