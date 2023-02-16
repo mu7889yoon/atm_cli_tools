@@ -57,12 +57,15 @@ class Props:
             aDB_jp_anime_name = aDB_jp_anime_name.parent.parent.find('label',itemprop="alternateName").string
         else:
             aDB_jp_anime_name = None
-        asg_url = self.aDB_soup.find('a',href=re.compile('anison.info/'))['href']
-        if asg_url != None:
+        try:
+            asg_url = self.aDB_soup.find('a',href=re.compile('anison.info/'))['href']
+        except TypeError:
+            print('[Warning] Anison.info link not found.')
             asg_jp_anime_name = None
         else:
             asg_soup = BeautifulSoup(requests.get(asg_url, headers=headers).text, 'html.parser')
             asg_jp_anime_name = asg_soup.find('div', class_='subject').text
+            
         if aDB_jp_anime_name == None and asg_jp_anime_name == None:
             print('[Warning] Japanese anime name not found.')
             return slug_anime_name
