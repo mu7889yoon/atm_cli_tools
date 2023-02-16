@@ -15,12 +15,14 @@ atdl [-h] [-f] url
 ダウンロード対象のURLを指定してください
 
 ```
-  -h, --help  show this help message and exit
-  -f, --fast  Without rename, Just Download
+  -h, --help         show this help message and exit
+  -f, --fast         Without rename, Just Download
+  -d DIR, --dir DIR  Directory to save the theme
 ```
-```-h```,```--help```オプションを指定すると、ヘルプを表示します。現在は、```-f```,```--fast```オプションのみですが、後々追加されるかもしれません。
+```-h```,```--help```オプションを指定すると、ヘルプを表示します。
 
 ```-f```,```--fast```オプションを指定すると、ファイル名の日本語化なしでダウンロードします。急いでいるときに使ってください(サビが始まっても次の曲がわからない時など)
+```-d```,```--dir```オプションを指定すると、一時的にファイルの保存先を指定できます。そのうち永久化できるようにするかもしれません。
 
 ## インストール
 ### 自分でビルドする場合

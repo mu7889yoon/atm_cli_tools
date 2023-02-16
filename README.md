@@ -11,11 +11,12 @@ Download and translate the file name to Japanese
 atdl [-h] [-f] url
 
 positional arguments:
-  url         URL of the theme page
+  url                URL of the theme page
 
 options:
-  -h, --help  show this help message and exit
-  -f, --fast  Without rename, Just Download
+  -h, --help         show this help message and exit
+  -f, --fast         Without rename, Just Download
+  -d DIR, --dir DIR  Directory to save the theme
 ```
 
 ## Installation

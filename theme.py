@@ -40,7 +40,6 @@ class Props:
         theme_name = self.get_jp_theme_name()
         theme_type = self.webm_url[self.webm_url.find('-')+1:self.webm_url.rfind('.')]
         self.file_name = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
-        print(self.file_name)
 
     def get_jp_anime_name(self):
         anime_url = self.theme_url[:self.theme_url.rfind('/')]
@@ -57,12 +56,15 @@ class Props:
             aDB_jp_anime_name = aDB_jp_anime_name.parent.parent.find('label',itemprop="alternateName").string
         else:
             aDB_jp_anime_name = None
-        asg_url = self.aDB_soup.find('a',href=re.compile('anison.info/'))['href']
-        if asg_url != None:
+        try:
+            asg_url = self.aDB_soup.find('a',href=re.compile('anison.info/'))['href']
+        except TypeError:
+            print('[Warning] Anison.info link not found.')
             asg_jp_anime_name = None
         else:
             asg_soup = BeautifulSoup(requests.get(asg_url, headers=headers).text, 'html.parser')
             asg_jp_anime_name = asg_soup.find('div', class_='subject').text
+            
         if aDB_jp_anime_name == None and asg_jp_anime_name == None:
             print('[Warning] Japanese anime name not found.')
             return slug_anime_name
