@@ -12,3 +12,4 @@ option = '-f' if args.fast else None
 directory = args.dir
 os.chdir(directory)
 props = Props(url, option)
+
