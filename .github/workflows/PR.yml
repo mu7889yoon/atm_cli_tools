@@ -1,1 +1,70 @@
+name: Pull Request Checks
 
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Test [1/5]
+        run: |
+          python atdl.py 'https://animethemes.moe/anime/beatless/OP2-NCBD1080'
+          if [ -f 'BEATLESS OP2-NCBD1080 Truth..webm' ]; then
+            echo 'Test [1/5] passed'
+            rm '*.webm'
+          else
+            echo 'Test [1/5] failed'
+            exit 1
+          fi
+      - name: Test [2/5]
+        run: |
+          python atdl.py 'https://animethemes.moe/anime/hayate_no_gotoku/OP2-BD1072'
+          if [ -f 'ハヤテのごとく! OP2 七転八起☆至上主義!.webm' ]; then
+            echo 'Test [2/5] passed'
+            rm '*.webm'
+          else
+            echo 'Test [2/5] failed'
+            exit 1
+          fi
+      - name: Test [3/5]
+        run: |
+          python atdl.py 'https://animethemes.moe/anime/baka_to_test_to_shoukanjuu/OP-NCBD1080'
+          if [ -f 'バカとテストと召喚獣 OP1 Perfect-area complete!.webm' ]; then
+            echo 'Test [3/5] passed'
+            rm '*.webm'
+          else
+            echo 'Test [3/5] failed'
+            exit 1
+          fi
+      - name: Test [4/5]
+        run: |
+          python atdl.py 'https://animethemes.moe/anime/fortune_arterial_akai_yakusoku/OP-NCBD1080'
+          if [ -f 'FORTUNE ARTERIAL OP1 絆-kizunairo-色.webm' ]; then
+            echo 'Test [4/5] passed'
+            rm '*.webm'
+          else
+            echo 'Test [4/5] failed'
+            exit 1
+          fi
+      - name: Test [5/5]
+        run: |
+          python atdl.py 'https://animethemes.moe/anime/suzumiya_haruhi_no_yuuutsu/OP2-NCBD1080'
+          if [ -f '涼宮ハルヒの憂鬱 OP2 冒険でしょでしょ?.webm' ]; then
+            echo 'Test [4/5] passed'
+            rm '*.webm'
+          else
+            echo 'Test [4/5] failed'
+            exit 1
+          fi
