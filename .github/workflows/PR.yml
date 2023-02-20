@@ -24,7 +24,7 @@ jobs:
           python atm_tools.py 'https://animethemes.moe/anime/beatless/OP2-NCBD1080'
           if [ -f 'BEATLESS OP2-NCBD1080 Truth..webm' ]; then
             echo 'check [1/5] passed'
-            rm '*.webm'
+            rm *.webm
           else
             echo 'check [1/5] failed'
             exit 1
@@ -34,7 +34,7 @@ jobs:
           python atm_tools.py 'https://animethemes.moe/anime/hayate_no_gotoku/OP2-BD1072'
           if [ -f 'ハヤテのごとく! OP2 七転八起☆至上主義!.webm' ]; then
             echo 'check [2/5] passed'
-            rm '*.webm'
+            rm *.webm
           else
             echo 'check [2/5] failed'
             exit 1
@@ -44,7 +44,7 @@ jobs:
           python atm_tools.py 'https://animethemes.moe/anime/baka_to_test_to_shoukanjuu/OP-NCBD1080'
           if [ -f 'バカとテストと召喚獣 OP1 Perfect-area complete!.webm' ]; then
             echo 'check [3/5] passed'
-            rm '*.webm'
+            rm *.webm
           else
             echo 'check [3/5] failed'
             exit 1
@@ -54,7 +54,7 @@ jobs:
           python atm_tools.py 'https://animethemes.moe/anime/fortune_arterial_akai_yakusoku/OP-NCBD1080'
           if [ -f 'FORTUNE ARTERIAL OP1 絆-kizunairo-色.webm' ]; then
             echo 'check [4/5] passed'
-            rm '*.webm'
+            rm *.webm
           else
             echo 'check [4/5] failed'
             exit 1
@@ -64,7 +64,7 @@ jobs:
           python atm_tools.py 'https://animethemes.moe/anime/suzumiya_haruhi_no_yuuutsu/OP2-NCBD1080'
           if [ -f '涼宮ハルヒの憂鬱 OP2 冒険でしょでしょ?.webm' ]; then
             echo 'check [4/5] passed'
-            rm '*.webm'
+            rm *.webm
           else
             echo 'check [4/5] failed'
             exit 1
