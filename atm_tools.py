@@ -14,10 +14,15 @@ os.chdir(directory)
 if url != None:
     props = Props(url, option)
 elif url == None:
-    print('Input Animethemes URL')
+    print('ATDL - Anime Theme DownLoader')
+    print('Input url to download the Anime Theme')
+    print('Type "help" for more information')
     while True:
-        url = input('ATDL >> ')
+        url = input('URL >>> ')
         if url == 'exit':
             break
+        elif url == 'help':
+            parser.print_help()
+            continue
         props = Props(url, option)
         print('')
