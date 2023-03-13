@@ -2,11 +2,19 @@ import re
 import requests
 from bs4 import BeautifulSoup
 import difflib
-import wget
 import os
 import threading
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"}
+
+def download_webm(webm_url, temp_filename):
+    requests.get(webm_url, headers=headers, stream=True)
+    with open(temp_filename, 'wb') as f:
+        for chunk in requests.get(webm_url, headers=headers, stream=True).iter_content(chunk_size=1024*1024):
+            if chunk:
+                f.write(chunk)
+                f.flush()
+
 
 class Props:
     def __init__(self, theme_url, options=None):
@@ -15,8 +23,8 @@ class Props:
         self.slug_anime_name = anime_url[anime_url.rfind('/')+1:]
         self.theme_soup  = BeautifulSoup(requests.get(self.theme_url, headers=headers).text, 'html.parser')
         self.webm_url = self.theme_soup.find('meta', content=re.compile('https://v.animethemes.moe/')).get('content')
-        self.temp_filename = wget.filename_from_url(self.webm_url)
-        if options == '--f' or options == '--fast':
+        self.temp_filename = self.webm_url[self.webm_url.rfind('/')+1:self.webm_url.rfind('.')] + '.webm_temp'
+        if options == '-f' or options == '--fast':
             self.downloader(options)
         else:
             t1 = threading.Thread(target=self.renamer)
@@ -25,26 +33,28 @@ class Props:
             t2.start()
             t1.join()
             t2.join()
-            os.rename(self.temp_filename, self.file_name)
+            os.rename(self.temp_filename, self.filename)
 
 
     def downloader(self, options):
         if options == '-f':
-            wget.download(self.webm_url)
+            self.filename = self.webm_url[self.webm_url.rfind('/')+1:self.webm_url.rfind('.')] + '.webm'
+            download_webm(self.webm_url, self.filename)
         else:
-            self.temp_filename = self.temp_filename+'_temp'
-            wget.download(self.webm_url, self.temp_filename)        
+            download_webm(self.webm_url, self.temp_filename)
+
+
 
     def renamer(self):
         anime_name = self.get_jp_anime_name()
         theme_name = self.get_jp_theme_name()
         theme_type = self.webm_url[self.webm_url.find('-')+1:self.webm_url.rfind('.')]
-        self.file_name = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
+        self.filename = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
 
     def get_jp_anime_name(self):
         anime_url = self.theme_url[:self.theme_url.rfind('/')]
         slug_anime_name = anime_url[anime_url.rfind('/')+1:]
-        atm_api = requests.get('https://api.animethemes.moe/anime/'+ slug_anime_name +'?include=resources')
+        atm_api = requests.get('https://api.animethemes.moe/anime/'+ slug_anime_name +'?include=resources', headers=headers)
         atm_api = atm_api.json()['anime']['resources']
         for i in atm_api:
             if i['site'] == 'aniDB':
@@ -92,4 +102,3 @@ class Props:
         else:
             print('[Warning] Japanese theme name not found.')
             return self.en_theme_name
-            
