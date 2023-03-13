@@ -2,7 +2,6 @@ import re
 import requests
 from bs4 import BeautifulSoup
 import difflib
-import wget
 import os
 import threading
 
@@ -24,7 +23,7 @@ class Props:
         self.slug_anime_name = anime_url[anime_url.rfind('/')+1:]
         self.theme_soup  = BeautifulSoup(requests.get(self.theme_url, headers=headers).text, 'html.parser')
         self.webm_url = self.theme_soup.find('meta', content=re.compile('https://v.animethemes.moe/')).get('content')
-        self.temp_filename = wget.filename_from_url(self.webm_url)
+        self.temp_filename = self.webm_url[self.webm_url.rfind('/')+1:self.webm_url.rfind('.')] + '.webm_temp'
         if options == '-f' or options == '--fast':
             self.downloader(options)
         else:
@@ -34,13 +33,13 @@ class Props:
             t2.start()
             t1.join()
             t2.join()
-            os.rename(self.temp_filename, self.file_name)
+            os.rename(self.temp_filename, self.filename)
 
 
     def downloader(self, options):
         if options == '-f':
-            self.temp_filename = self.webm_url[self.webm_url.rfind('/')+1:self.webm_url.rfind('.')] + '.webm'
-            download_webm(self.webm_url, self.temp_filename)
+            self.filename = self.webm_url[self.webm_url.rfind('/')+1:self.webm_url.rfind('.')] + '.webm'
+            download_webm(self.webm_url, self.filename)
         else:
             download_webm(self.webm_url, self.temp_filename)
 
@@ -50,7 +49,7 @@ class Props:
         anime_name = self.get_jp_anime_name()
         theme_name = self.get_jp_theme_name()
         theme_type = self.webm_url[self.webm_url.find('-')+1:self.webm_url.rfind('.')]
-        self.file_name = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
+        self.filename = anime_name + ' ' + theme_type + ' ' + theme_name + '.webm'
 
     def get_jp_anime_name(self):
         anime_url = self.theme_url[:self.theme_url.rfind('/')]
