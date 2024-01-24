@@ -1,7 +1,6 @@
 from atm_cli_tools.helper import *
 from atm_cli_tools.Model.Theme import Theme
 
-from atm_cli_tools.UseCase.Theme.GetTypeAction import GetTypeAction
 from atm_cli_tools.UseCase.ConvertUrlAction import ConvertUrlAction
 from atm_cli_tools.UseCase.Theme.FindSimilarAction import FindSimilarAction
 from atm_cli_tools.UseCase.AniDB.GetJpSongnameAction import GetJpSongnameAction as GetJpSongnameFromAdbAction
@@ -10,7 +9,6 @@ from atm_cli_tools.UseCase.AnisonGeneration.GetJpTitleAction import GetJpTitleAc
 from atm_cli_tools.UseCase.AnisonGeneration.GetArtistAction import GetArtistAction as GetArtistFromAsgAction
 from atm_cli_tools.UseCase.Theme.DetermineFilenameAction import DetermineFilenameAction
 from atm_cli_tools.UseCase.Theme.DownloadAction import DownloadAction
-from atm_cli_tools.UseCase.GetSlugAction import GetSlugAction
 from atm_cli_tools.UseCase.AnimeThemes.GetThemeParamAction import GetThemeParamAction
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"}
