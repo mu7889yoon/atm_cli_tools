@@ -26,9 +26,7 @@ class ThemeControllerClass:
         self.Theme = Theme(self.url, self.Anime)
     
     def fetch_params(self):
-        slug = GetSlugAction(self.url)
-        type = GetTypeAction(self.url)
-        params = GetThemeParamAction(slug, type)
+        params = GetThemeParamAction(self.url)
         return self.store_params(params)
         
     def store_params(self, params):
