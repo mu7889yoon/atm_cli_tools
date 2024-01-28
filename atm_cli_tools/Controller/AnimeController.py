@@ -7,6 +7,7 @@ from atm_cli_tools.UseCase.AniDB.GetJpTitleAction import GetJpTitleAction as Get
 from atm_cli_tools.UseCase.AniDB.GetThemesTableAction import GetThemesTableAction
 from atm_cli_tools.UseCase.AnisonGeneration.GetJpTitleAction import GetJpTitleAction as GetJpTitleFromAsgAction
 from atm_cli_tools.UseCase.AnimeThemes.GetAllThemesParamAction import GetAllThemesParamAction
+from atm_cli_tools.UseCase.AnimeThemes.GetAnimeParamAction import GetAnimeParamAction
 from atm_cli_tools.Model.Anime import Anime
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"}
@@ -22,9 +23,12 @@ class AnimeControllerClass:
         return self.Anime
     
     def fetch_params(self):
-        aDB_url = GetAniDbUrlAction(self.slug)  
-        self.Anime.en_title = GetEnTitleFromAtmAction(self.slug)
+        param = GetAnimeParamAction(self.url)
+        aDB_url = param['aDB_url']
+        self.Anime.en_title = param['en_title']
         self.Anime.jp_title = ''
+        self.Anime.themes_table = ''
+        print(aDB_url   )
         if aDB_url:
             soup = GetSoup(aDB_url, headers)
             asg_url = GetAniGenUrlAction(soup)
@@ -33,7 +37,6 @@ class AnimeControllerClass:
             if asg_url:
                 soup = GetSoup(asg_url)
                 self.Anime.jp_title = GetJpTitleFromAsgAction(soup)
-
         
     def find_themes(self, slug: str):
         return GetAllThemesParamAction(slug)
