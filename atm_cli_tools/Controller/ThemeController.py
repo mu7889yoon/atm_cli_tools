@@ -59,6 +59,10 @@ class ThemeControllerClass:
         
         
     def download(self):
-        self.translate_songname()   
+        if self.Anime.themes_table:
+            self.translate_songname()
+        else:
+            self.Theme.jp_songname = ''
+            self.Theme.artist = ''
         self.determine_filename()
         DownloadAction(self.Theme.webm_url, self.Theme.filename)
