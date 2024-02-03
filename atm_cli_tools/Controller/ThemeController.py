@@ -19,6 +19,7 @@ class ThemeControllerClass:
         if Anime == None:
             from atm_cli_tools.Controller.AnimeController import AnimeControllerClass
             atm_url = ConvertUrlAction(self.url)
+            print(atm_url)
             self.Anime = AnimeControllerClass(atm_url).return_anime_class()
         else: self.Anime = Anime
         self.Theme = Theme(self.url, self.Anime)
@@ -31,7 +32,15 @@ class ThemeControllerClass:
         self.Theme.webm_url = params['webm_url']
         self.Theme.en_songname = params['name']
         self.Theme.type = params['type']
-        return self.download()
+        # return self.download()
+        
+    def set_param(self, param = None):
+        if not param:
+            param = GetThemeParamAction(self.url)
+
+        self.Theme.webm_url = param['webm_url']
+        self.Theme.en_songname = param['name']
+        self.Theme.type = param['type']
         
     def translate_songname(self):
         self.Theme.jp_songname = ''
@@ -46,9 +55,7 @@ class ThemeControllerClass:
                 self.Theme.jp_songname = GetJpSongnameFromAsgAction(soup)
                 # beta feature
                 self.Theme.artist = GetArtistFromAsgAction(soup)
-                
-                
-        
+
     def determine_filename(self):
         self.Theme.filename = DetermineFilenameAction(self.Theme.jp_songname, 
                                                       self.Theme.en_songname,
@@ -56,6 +63,7 @@ class ThemeControllerClass:
                                                       self.Anime.en_title,
                                                       self.Theme.type,
                                                       self.Theme.artist)
+        print(self.Theme.filename)
         
         
     def download(self):
@@ -65,4 +73,5 @@ class ThemeControllerClass:
             self.Theme.jp_songname = ''
             self.Theme.artist = ''
         self.determine_filename()
+        print(dir(self.Theme))
         DownloadAction(self.Theme.webm_url, self.Theme.filename)

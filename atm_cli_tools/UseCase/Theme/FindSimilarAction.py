@@ -9,5 +9,3 @@ def FindSimilarAction(en_songname, themes):
     if ret:
         id = themes[[theme['songname'] for theme in themes].index(ret[0])]['id']
         return 'https://anidb.net' + id
-    
-    

@@ -17,7 +17,7 @@ class AnimeControllerClass:
         self.url = url
         self.slug = GetSlugAction(url)
         self.Anime = Anime(self.slug)
-        
+
     def return_anime_class(self):
         self.fetch_params()
         return self.Anime
@@ -28,7 +28,7 @@ class AnimeControllerClass:
         self.Anime.en_title = param['en_title']
         self.Anime.jp_title = ''
         self.Anime.themes_table = ''
-        print(aDB_url   )
+
         if aDB_url:
             soup = GetSoup(aDB_url, headers)
             asg_url = GetAniGenUrlAction(soup)
@@ -46,4 +46,4 @@ class AnimeControllerClass:
         self.fetch_params()
         themes = self.find_themes(self.slug)
         for theme in themes:
-            ThemeControllerClass(theme['theme_url'], self.Anime).store_params(theme)
+            ThemeControllerClass(theme['theme_url'], self.Anime).set_param(theme)
