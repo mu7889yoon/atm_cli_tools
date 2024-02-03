@@ -16,7 +16,6 @@ def GetAllThemesParamAction(slug):
                     type += 'v' + str(entrie['version'])
                 if video['tags'] != "":
                     type += '-' + video['tags']
-                # if video['tags'] == "" else theme['slug'] + '-' + video['tags']
                 themes.append({
                     'name': theme['song']['title'],
                     'type': type,
