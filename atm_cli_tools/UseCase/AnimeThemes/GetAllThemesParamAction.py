@@ -12,7 +12,7 @@ def GetAllThemesParamAction(slug):
         for entrie in theme['animethemeentries']:
             for video in entrie['videos']:
                 type = theme['slug']
-                if entrie['version'] != None:
+                if entrie['version'] != 1 and entrie['version'] != None:
                     type += 'v' + str(entrie['version'])
                 if video['tags'] != "":
                     type += '-' + video['tags']
