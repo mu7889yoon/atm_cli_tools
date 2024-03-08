@@ -1,7 +1,7 @@
 import requests
 import os
 
-def CheckWebmUrlAction(url):
+def CheckWebmUrlAction(url: str)-> bool:
     params = {
         'webm_url': url
     }

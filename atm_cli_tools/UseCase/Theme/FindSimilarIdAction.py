@@ -1,6 +1,7 @@
 import difflib
+from typing import Union
 
-def FindSimilarIdAction(en_songname: str, themes: list) -> str:
+def FindSimilarIdAction(en_songname: str, themes: list) -> Union[str, None]:
     ret = difflib.get_close_matches(
         en_songname.upper(),
         [theme['songname'] for theme in themes],

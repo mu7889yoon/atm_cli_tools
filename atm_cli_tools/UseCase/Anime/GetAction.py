@@ -1,5 +1,4 @@
 from atm_cli_tools.UseCase.AnimeThemes.GetAnimeParamAction import GetAnimeParamAction
-from atm_cli_tools.UseCase.AnimeThemes.GetAllThemesParamAction import GetAllThemesParamAction
 from atm_cli_tools.UseCase.AniDB.GetAniGenUrlAction import GetAniGenUrlAction
 from atm_cli_tools.UseCase.AniDB.GetThemesTableAction import GetThemesTableAction
 from atm_cli_tools.UseCase.AniDB.GetJpTitleAction import GetJpTitleAction as GetJpTitleFromAdbAction
@@ -24,6 +23,5 @@ def GetAction(anime_url: str) -> Anime:
         soup = GetSoup(anime.asg['url'])
         anime.asg['jp_title'] = GetJpTitleFromAsgAction(soup)
         anime.jp_title = anime.asg['jp_title']
-        
 
     return anime
