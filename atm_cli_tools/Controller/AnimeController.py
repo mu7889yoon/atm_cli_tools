@@ -19,8 +19,3 @@ class AnimeControllerClass:
         themes = self.Anime.themes
         theme = [theme for theme in themes if theme['theme_url'] == theme_url][0]
         ThemeControllerClass(theme, self.Anime)
-        
-        
-    # deprecated
-    def return_anime_model(self) -> Anime:
-        return self.Anime
