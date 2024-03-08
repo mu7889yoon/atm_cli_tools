@@ -1,7 +1,6 @@
 import argparse
 from urllib.parse import urlparse
 from atm_cli_tools.Validate.UrlRequest import UrlRequest
-from atm_cli_tools.Controller.ThemeController import ThemeControllerClass
 from atm_cli_tools.Controller.AnimeController import AnimeControllerClass
         
 if __name__ == '__main__':
@@ -16,6 +15,7 @@ if __name__ == '__main__':
     UrlRequest(url)
     depth = urlparse(url).path.count('/')
     if depth == 3:
-        ThemeControllerClass(url).fetch_params()
+        anime_url = '/'.join(url.split('/')[:-1])
+        AnimeControllerClass(anime_url).download_theme(url)
     elif depth == 2:
-        AnimeControllerClass(url).downloads()
+        AnimeControllerClass(url).download_themes()

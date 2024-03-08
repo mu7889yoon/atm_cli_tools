@@ -1,6 +1,6 @@
 import difflib
 
-def FindSimilarAction(en_songname, themes):
+def FindSimilarIdAction(en_songname: str, themes: list) -> str:
     ret = difflib.get_close_matches(
         en_songname.upper(),
         [theme['songname'] for theme in themes],

@@ -21,7 +21,7 @@ jobs:
 
       - name: check [1/5]
         run: |
-          python atm_tools.py 'https://animethemes.moe/anime/beatless/OP2-NCBD1080'
+          python atdl.py 'https://animethemes.moe/anime/beatless/OP2-NCBD1080'
           if [ -f 'BEATLESS OP2-NCBD1080 Truth..webm' ]; then
             echo 'check [1/5] passed'
             rm *.webm

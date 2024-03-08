@@ -1,77 +1,26 @@
 from atm_cli_tools.helper import *
-from atm_cli_tools.Model.Theme import Theme
 
-from atm_cli_tools.UseCase.ConvertUrlAction import ConvertUrlAction
-from atm_cli_tools.UseCase.Theme.FindSimilarAction import FindSimilarAction
-from atm_cli_tools.UseCase.AniDB.GetJpSongnameAction import GetJpSongnameAction as GetJpSongnameFromAdbAction
-from atm_cli_tools.UseCase.AniDB.GetAniGenUrlAction import GetAniGenUrlAction
-from atm_cli_tools.UseCase.AnisonGeneration.GetJpTitleAction import GetJpTitleAction as GetJpSongnameFromAsgAction
-from atm_cli_tools.UseCase.AnisonGeneration.GetArtistAction import GetArtistAction as GetArtistFromAsgAction
+from atm_cli_tools.Model.Anime import Anime
+
 from atm_cli_tools.UseCase.Theme.DetermineFilenameAction import DetermineFilenameAction
 from atm_cli_tools.UseCase.Theme.DownloadAction import DownloadAction
-from atm_cli_tools.UseCase.AnimeThemes.GetThemeParamAction import GetThemeParamAction
+from atm_cli_tools.UseCase.Theme.GetAction import GetAction
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"}
 
 class ThemeControllerClass:
-    def __init__(self, url, Anime = None):
-        self.url = url
-        if Anime == None:
-            from atm_cli_tools.Controller.AnimeController import AnimeControllerClass
-            atm_url = ConvertUrlAction(self.url)
-            print(atm_url)
-            self.Anime = AnimeControllerClass(atm_url).return_anime_class()
-        else: self.Anime = Anime
-        self.Theme = Theme(self.url, self.Anime)
-    
-    def fetch_params(self):
-        params = GetThemeParamAction(self.url)
-        return self.store_params(params)
+    def __init__(self, theme: dict, Anime: Anime)-> None:
+        self.theme = GetAction(theme, Anime)
+        self.filename = DetermineFilenameAction(
+            self.theme.name,
+            self.theme.anime_title,
+            self.theme.type,
+            self.theme.artist
+        )
+        print(self.filename)
+        # DownloadAction(self.theme.webm_url, self.filename)
         
-    def store_params(self, params):
-        self.Theme.webm_url = params['webm_url']
-        self.Theme.en_songname = params['name']
-        self.Theme.type = params['type']
-        # return self.download()
+    def download(self)-> str:
+        path = DownloadAction(self.theme.webm_url, self.filename)
+        return path
         
-    def set_param(self, param = None):
-        if not param:
-            param = GetThemeParamAction(self.url)
-
-        self.Theme.webm_url = param['webm_url']
-        self.Theme.en_songname = param['name']
-        self.Theme.type = param['type']
-        
-    def translate_songname(self):
-        self.Theme.jp_songname = ''
-        self.Theme.artist = ''
-        aDB_url = FindSimilarAction(self.Theme.en_songname, self.Anime.themes_table)
-        if aDB_url:
-            soup = GetSoup(aDB_url, headers)
-            self.Theme.jp_songname = GetJpSongnameFromAdbAction(soup)
-            asg_url = GetAniGenUrlAction(soup)
-            if asg_url:
-                soup = GetSoup(asg_url)
-                self.Theme.jp_songname = GetJpSongnameFromAsgAction(soup)
-                # beta feature
-                self.Theme.artist = GetArtistFromAsgAction(soup)
-
-    def determine_filename(self):
-        self.Theme.filename = DetermineFilenameAction(self.Theme.jp_songname, 
-                                                      self.Theme.en_songname,
-                                                      self.Anime.jp_title,
-                                                      self.Anime.en_title,
-                                                      self.Theme.type,
-                                                      self.Theme.artist)
-        print(self.Theme.filename)
-        
-        
-    def download(self):
-        if self.Anime.themes_table:
-            self.translate_songname()
-        else:
-            self.Theme.jp_songname = ''
-            self.Theme.artist = ''
-        self.determine_filename()
-        print(dir(self.Theme))
-        DownloadAction(self.Theme.webm_url, self.Theme.filename)
