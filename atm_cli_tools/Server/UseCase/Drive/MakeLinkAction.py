@@ -1,7 +1,7 @@
 import requests
 import os
 
-def MakeLinkAction(dest_dir_url, file_url):
+def MakeLinkAction(dest_dir_url: str, file_url: str)-> None:
     params = {
         'dest_dir_id': dest_dir_url,
         'file_id': file_url,
