@@ -1,2 +1,2 @@
-def ConvertUrlAction(url):
-    return url[:url.rfind('/')]
+# def ConvertUrlAction(url):
+#     return url[:url.rfind('/')]

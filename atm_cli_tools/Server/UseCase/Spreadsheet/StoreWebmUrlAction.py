@@ -1,7 +1,7 @@
 import requests
 import os
 
-def StoreWebmUrlAction(webm_url):
+def StoreWebmUrlAction(webm_url:str)-> None:
     params = {
         'webm_url': webm_url
     }

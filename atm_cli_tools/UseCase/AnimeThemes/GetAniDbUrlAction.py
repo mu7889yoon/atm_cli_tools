@@ -1,6 +1,7 @@
+from typing import Union
 from atm_cli_tools.helper import *
 
-def GetAniDbUrlAction(slug):
+def GetAniDbUrlAction(slug:str)-> Union[str, None]:
     query = {
         'include': 'resources',
     }

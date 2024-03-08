@@ -1,0 +1,3 @@
+from UseCase.AnimeThemes.GetAllThemesParamAction import GetAllThemesParamAction
+
+print(GetAllThemesParamAction('saikyou_tank_no_meikyuu_kouryaku_tairyoku_9999_no_rare_skill_mochi_tank_yuusha_party_wo_tsuihou_sareru'))

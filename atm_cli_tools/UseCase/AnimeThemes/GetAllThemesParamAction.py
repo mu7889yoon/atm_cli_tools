@@ -1,6 +1,6 @@
 from atm_cli_tools.helper import *
 
-def GetAllThemesParamAction(slug):
+def GetAllThemesParamAction(slug: str)-> list:
     query = {
         'include': 'animethemes.animethemeentries.videos,animethemes.song',
     }
