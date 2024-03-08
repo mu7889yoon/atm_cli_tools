@@ -20,12 +20,4 @@ class AnimeControllerForServerClass(AnimeControllerClass):
             path = self.create_folder()
             for theme in undownload_themes:
                 ThemeControllerForServerClass(theme, self.Anime, path, self.daily_folder_id)
-
     
-    def downloads(self):
-        from atm_cli_tools.Server.Controller.ThemeControllerServer import ThemeControllerForServerClass
-        themes = CheckWebmUrlsAction(self.Anime.themes)
-        if themes:
-            path = self.create_folder()
-            for theme in themes:
-                ThemeControllerForServerClass(theme['theme_url'], self.Anime, theme, path, self.daily_folder_id).download()
